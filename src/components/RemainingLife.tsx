@@ -1,9 +1,9 @@
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import { Form, DatePicker, Radio, InputNumber } from 'antd';
 import { RadioChangeEvent } from 'antd/es/radio/interface';
 import moment, { Moment } from 'moment';
-import { v4 } from 'uuid';
-import styles from './remaining-life.scss';
 
 const layout = {
   labelCol: { span: 8 },
@@ -15,11 +15,11 @@ const RemainingLife: React.FC = () => {
   const [year, setYear] = React.useState(80);
   const [unit, setUnit] = React.useState(1);
 
-  const onBirthChange = (_value: Moment | null, dateString: string) => {
+  const onBirthChange = (value: Moment | null, dateString: string) => {
     setBirth(moment(new Date(dateString), 'YYYY-MM-DD'));
   };
 
-  const onYearChange = (value: number | string | undefined | null) => {
+  const onYearChange = (value: string | number | undefined) => {
     setYear(value as number);
   };
 
@@ -28,13 +28,16 @@ const RemainingLife: React.FC = () => {
   };
 
   return (
-    <div className={styles.wrapper}>
+    <div
+      style={{
+        width: '100vw',
+        height: '100vh',
+        overflow: 'auto',
+        padding: '15px',
+      }}
+    >
       <h1>Remaining Life</h1>
-      <Form
-        labelCol={layout.labelCol}
-        wrapperCol={layout.wrapperCol}
-        initialValues={{ birth, year, unit }}
-      >
+      <Form {...layout} initialValues={{ birth, year, unit }}>
         <Form.Item
           label="你的生日"
           name="birth"
@@ -61,36 +64,44 @@ const RemainingLife: React.FC = () => {
         </Form.Item>
       </Form>
       {unit === 1 ? (
-        <div className={[styles['age-area'], styles.year].join(' ')}>
-          {Array.from(Array(year)).map((_item, index) => (
+        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+          {Array.from(Array(year)).map((item, index) => (
             <div
-              key={v4()}
-              className={[
-                styles.item,
-                index + 1 <= new Date().getFullYear() - birth.year()
-                  ? styles.past
-                  : '',
-              ].join(' ')}
+              key={index}
+              style={{
+                width: '50px',
+                height: '50px',
+                border: '1px solid #000',
+                boxSizing: 'border-box',
+                backgroundColor:
+                  index + 1 <= new Date().getFullYear() - birth.year()
+                    ? '#ccc'
+                    : 'transparent',
+              }}
             />
           ))}
         </div>
       ) : null}
 
       {unit === 2 ? (
-        <div className={[styles['age-area'], styles.month].join(' ')}>
-          {Array.from(Array(year * 12)).map((_item, index) => (
+        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+          {Array.from(Array(year * 12)).map((item, index) => (
             <div
-              className={[
-                styles.item,
-                index + 1 <=
-                new Date().getFullYear() * 12 +
-                  new Date().getMonth() -
-                  birth.year() * 12 -
-                  birth.month()
-                  ? styles.past
-                  : '',
-              ].join(' ')}
-              key={v4()}
+              style={{
+                width: '20px',
+                height: '20px',
+                border: '1px solid #000',
+                boxSizing: 'border-box',
+                backgroundColor:
+                  index + 1 <=
+                  new Date().getFullYear() * 12 +
+                    new Date().getMonth() -
+                    birth.year() * 12 -
+                    birth.month()
+                    ? '#ccc'
+                    : 'transparent',
+              }}
+              key={index}
             />
           ))}
         </div>

@@ -57,14 +57,14 @@ export default class MenuBuilder {
       label: 'Electron',
       submenu: [
         {
-          label: 'About RemainingLifee',
+          label: 'About RemainingLife',
           selector: 'orderFrontStandardAboutPanel:',
         },
         { type: 'separator' },
         { label: 'Services', submenu: [] },
         { type: 'separator' },
         {
-          label: 'Hide RemainingLifee',
+          label: 'Hide RemainingLife',
           accelerator: 'Command+H',
           selector: 'hide:',
         },

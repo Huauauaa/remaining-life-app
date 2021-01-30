@@ -1,9 +1,8 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import { Form, DatePicker, Radio, InputNumber } from 'antd';
 import { RadioChangeEvent } from 'antd/es/radio/interface';
 import moment, { Moment } from 'moment';
+import { v4 } from 'uuid';
 
 const layout = {
   labelCol: { span: 8 },
@@ -15,11 +14,11 @@ const RemainingLife: React.FC = () => {
   const [year, setYear] = React.useState(80);
   const [unit, setUnit] = React.useState(1);
 
-  const onBirthChange = (value: Moment | null, dateString: string) => {
+  const onBirthChange = (_value: Moment | null, dateString: string) => {
     setBirth(moment(new Date(dateString), 'YYYY-MM-DD'));
   };
 
-  const onYearChange = (value: string | number | undefined) => {
+  const onYearChange = (value: number | string | undefined | null) => {
     setYear(value as number);
   };
 
@@ -37,7 +36,11 @@ const RemainingLife: React.FC = () => {
       }}
     >
       <h1>Remaining Life</h1>
-      <Form {...layout} initialValues={{ birth, year, unit }}>
+      <Form
+        labelCol={layout.labelCol}
+        wrapperCol={layout.wrapperCol}
+        initialValues={{ birth, year, unit }}
+      >
         <Form.Item
           label="你的生日"
           name="birth"
@@ -65,9 +68,9 @@ const RemainingLife: React.FC = () => {
       </Form>
       {unit === 1 ? (
         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-          {Array.from(Array(year)).map((item, index) => (
+          {Array.from(Array(year)).map((_item, index) => (
             <div
-              key={index}
+              key={v4()}
               style={{
                 width: '50px',
                 height: '50px',
@@ -85,7 +88,7 @@ const RemainingLife: React.FC = () => {
 
       {unit === 2 ? (
         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-          {Array.from(Array(year * 12)).map((item, index) => (
+          {Array.from(Array(year * 12)).map((_item, index) => (
             <div
               style={{
                 width: '20px',
@@ -101,7 +104,7 @@ const RemainingLife: React.FC = () => {
                     ? '#ccc'
                     : 'transparent',
               }}
-              key={index}
+              key={v4()}
             />
           ))}
         </div>
